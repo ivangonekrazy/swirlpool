@@ -1,0 +1,17 @@
+<html>
+<body>
+  Hello! It's now <span id="date"></span>
+
+  <form method="POST" action="send">
+      <input type=text name=message placeholder="say shit">
+      <input type=submit value=Shout>
+  </form>
+</body>
+<script type="text/javascript">
+  var d = document.getElementById("date");
+  var s = new EventSource("/sse");
+  s.onmessage = function(e) {
+    d.innerHTML = e.data;
+  };
+</script>
+</html>
