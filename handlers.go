@@ -43,3 +43,17 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 	return
 }
+
+func GithubWebhookHandler(w http.ResponseWriter, r *http.Request) {
+	/* TODO Handle webhook delivery from Github
+	 *
+	 * - X-Github-Event header will let us know what type of message we are
+	 *   dealing with (e.g. 'pull_request')
+	 * - The JSON payload will describe the pull request details
+	 */
+
+	var event = r.Header.Get("X-Github-Event")
+	var payload = r.Body
+
+	return
+}
