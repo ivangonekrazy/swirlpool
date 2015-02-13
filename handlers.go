@@ -9,16 +9,19 @@ import (
 func ClientHandler(w http.ResponseWriter, r *http.Request) {
 	var b bytes.Buffer
 	flusher := w.(http.Flusher)
-
 	conn := &Connection{messageChan: make(chan Message)}
-	h.register <- conn
-	defer func() { h.unregister <- conn }()
 
+	h.register <- conn
+
+	// we need to unregister our Connection at either the
+	// close of the HTTP connection or at the end of this
+	// function
 	closeNotifier := w.(http.CloseNotifier).CloseNotify()
 	go func() {
 		<-closeNotifier
 		h.unregister <- conn
 	}()
+	defer func() { h.unregister <- conn }()
 
 	// declare SSE MIME type
 	w.Header().Set("Content-type", "text/event-stream")
@@ -29,7 +32,6 @@ func ClientHandler(w http.ResponseWriter, r *http.Request) {
 		b.WriteTo(w)
 		flusher.Flush()
 	}
-
 }
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
