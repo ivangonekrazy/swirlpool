@@ -11,7 +11,7 @@ type Message struct {
 	id    string
 }
 
-func (m *Message) Bytes() []byte {
+func (m *Message) String() string {
 	var buf bytes.Buffer
 
 	if m.event != "" {
@@ -32,5 +32,5 @@ func (m *Message) Bytes() []byte {
 
 	buf.Write([]byte("\n\n"))
 
-	return buf.Bytes()
+	return buf.String()
 }

@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func main() {
+func xxxmain() {
 	// generic data struct
 	data := map[string]interface{}{}
 
