@@ -36,7 +36,7 @@ func ClientHandler(w http.ResponseWriter, r *http.Request) {
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 	messageText := r.PostFormValue("message")
-	h.broadcast <- Message{data: messageText}
+	h.broadcast <- Message{data: []string{messageText}}
 
 	fmt.Printf("Received message: %s\n", messageText)
 

@@ -7,7 +7,7 @@ import (
 // encapsulates a SSE data frame
 type Message struct {
 	event string
-	data  string
+	data  []string
 	id    string
 }
 
@@ -19,8 +19,11 @@ func (m *Message) Bytes() []byte {
 		buf.Write([]byte(m.event))
 	}
 
-	buf.Write([]byte("data: "))
-	buf.Write([]byte(m.data))
+	for _, d := range m.data {
+		buf.Write([]byte("data: "))
+		buf.Write([]byte(d))
+		buf.Write([]byte("\n"))
+	}
 
 	if m.id != "" {
 		buf.Write([]byte("id: "))

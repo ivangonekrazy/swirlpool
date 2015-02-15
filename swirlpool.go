@@ -27,7 +27,7 @@ func broadcaster() {
 		cmd.Stderr = &buf
 		cmd.Run()
 
-		m := Message{data: buf.String()}
+		m := Message{data: []string{buf.String()}}
 		h.broadcast <- m
 		buf.Reset()
 
