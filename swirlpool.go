@@ -42,6 +42,7 @@ func main() {
 	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(".")))) // for index.html
 	http.HandleFunc("/sse", ClientHandler)
 	http.HandleFunc("/send", PostHandler)
+	http.HandleFunc("/github", GithubWebhookHandler)
 
 	fmt.Println("Starting swirlpool...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
