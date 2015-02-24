@@ -3,8 +3,8 @@ package main
 import "testing"
 
 func TestMessage(t *testing.T) {
-
-	m := Message{data: []string{"Hello", "world"}}
+	m := NewMessage("Hello")
+	m.AppendData("world")
 	b := m.String()
 
 	if b != "data: Hello\ndata: world\n\n\n" {
@@ -13,7 +13,7 @@ func TestMessage(t *testing.T) {
 }
 
 func TestSetEvent(t *testing.T) {
-	m := Message{data: []string{"one"}}
+	m := NewMessage("one")
 	m.SetEvent("hello")
 
 	if m.String() != "event: hello\ndata: one\n\n\n" {
@@ -21,7 +21,7 @@ func TestSetEvent(t *testing.T) {
 	}
 }
 
-func TestMessageSetDAta(t *testing.T) {
+func TestMessageSetData(t *testing.T) {
 	m := new(Message)
 	m.SetData("one", "two")
 
@@ -31,8 +31,7 @@ func TestMessageSetDAta(t *testing.T) {
 }
 
 func TestMessageAppend(t *testing.T) {
-
-	m := Message{data: []string{"one"}}
+	m := NewMessage("one")
 	if m.String() != "data: one\n\n\n" {
 		t.Error("Should start with one.")
 	}

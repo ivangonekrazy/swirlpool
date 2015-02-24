@@ -36,7 +36,7 @@ func ClientHandler(w http.ResponseWriter, r *http.Request) {
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 	messageText := r.PostFormValue("message")
-	h.broadcast <- Message{data: []string{messageText}}
+	h.broadcast <- NewMessage(messageText)
 
 	fmt.Printf("Received message: %s\n", messageText)
 
@@ -52,8 +52,7 @@ func GithubWebhookHandler(w http.ResponseWriter, r *http.Request) {
 	// - The JSON payload will describe the pull request details
 
 	var githubEvent = r.Header.Get("X-Github-Event")
-	m := Message{}
-	m.AppendData(githubEvent)
+	m := NewMessage(githubEvent)
 	m.SetEvent("github")
 	h.broadcast <- m
 	//var payload = r.Body

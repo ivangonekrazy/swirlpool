@@ -12,6 +12,11 @@ type Message struct {
 	id    string
 }
 
+func NewMessage(data string) Message {
+	m := Message{data: []string{data}}
+	return m
+}
+
 func (m *Message) Reset() {
 	m.event = ""
 	m.data = nil
