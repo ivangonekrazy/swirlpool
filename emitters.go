@@ -19,9 +19,10 @@ func broadcaster() {
 		cmd.Run()
 
 		m := NewMessage(buf.String())
+		m.SetEvent("datetime")
 		h.broadcast <- m
 		buf.Reset()
 
-		time.Sleep(2 * time.Second)
+		time.Sleep(1 * time.Second)
 	}
 }

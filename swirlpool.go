@@ -23,6 +23,7 @@ func main() {
 	http.HandleFunc("/send", PostHandler)
 	http.HandleFunc("/github", GithubWebhookHandler)
 
-	fmt.Println("Starting swirlpool...")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	port := ":8080"
+	fmt.Printf("Starting swirlpool on port %v...\n", port)
+	log.Fatal(http.ListenAndServe(port, nil))
 }

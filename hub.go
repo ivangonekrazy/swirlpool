@@ -16,23 +16,25 @@ func (h *Hub) Run() {
 	for {
 		select {
 		case c := <-h.register:
-			fmt.Printf("Register connection: %s (%s)\n", c, len(h.connections))
 			h.connections[c] = true
+			fmt.Printf("[ + ] Connection: %v (%v)\n", c, len(h.connections))
 		case c := <-h.unregister:
-			fmt.Printf("Unregister connection: %s (%s)\n", c, len(h.connections))
 			if _, ok := h.connections[c]; ok {
 				delete(h.connections, c)
 				close(c.messageChan)
 			}
+			fmt.Printf("[ - ] Connection: %v (%v)\n", c, len(h.connections))
 		case m := <-h.broadcast:
 			for c := range h.connections {
 				select {
 				case c.messageChan <- m:
+					// no body
 				default:
 					delete(h.connections, c)
 					close(c.messageChan)
 				}
 			}
+
 		}
 	}
 }

@@ -1,9 +1,19 @@
 <html>
+<head>
+  <title>
+    Swirlpool: Test Page
+  </title>
+</head>
 <body>
-  Message: <span id="message"></span>
+  <div>
+    Datetime: <span id="datetime"></span>
+  </div>
+  <div>
+    <ul id="event-log"></ul>
+  </div>
   <form method="POST" action="send">
-      <input class="send-message" type=text name=message placeholder="say shit">
-      <input class="send-message-button" type=submit value=Shout>
+    <input class="send-message" type=text name=message placeholder="say shit">
+    <input class="send-message-button" type=submit value=Shout>
   </form>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

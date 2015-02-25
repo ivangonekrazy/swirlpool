@@ -2,7 +2,9 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"github.com/jmoiron/jsonq"
 	"net/http"
 )
 
@@ -38,7 +40,7 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 	messageText := r.PostFormValue("message")
 	h.broadcast <- NewMessage(messageText)
 
-	fmt.Printf("Received message: %s\n", messageText)
+	fmt.Printf("PostHandler: received message: %s\n", messageText)
 
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 
@@ -51,11 +53,18 @@ func GithubWebhookHandler(w http.ResponseWriter, r *http.Request) {
 	//   dealing with (e.g. 'pull_request')
 	// - The JSON payload will describe the pull request details
 
-	var githubEvent = r.Header.Get("X-Github-Event")
-	m := NewMessage(githubEvent)
-	m.SetEvent("github")
+	//var ghEvent = r.Header.Get("X-Github-Event")
+	var ghPayload = r.Body
+	data := map[string]interface{}{}
+
+	dec := json.NewDecoder(ghPayload)
+	dec.Decode(&data) // decode into a generic map
+	jq := jsonq.NewQuery(data)
+
+	login, _ := jq.String("pull_request", "user", "login")
+	m := NewMessage(login)
+	m.SetEvent("pullrequest")
 	h.broadcast <- m
-	//var payload = r.Body
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
