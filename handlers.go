@@ -42,9 +42,8 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("PostHandler: received message: %s\n", messageText)
 
-	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
-
-	return
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("OK"))
 }
 
 func GithubWebhookHandler(w http.ResponseWriter, r *http.Request) {
