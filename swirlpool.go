@@ -18,10 +18,11 @@ func main() {
 	go h.Run()
 	go broadcaster()
 
-	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(".")))) // for index.html
 	http.HandleFunc("/sse", ClientHandler)
 	http.HandleFunc("/send", PostHandler)
 	http.HandleFunc("/github", GithubWebhookHandler)
+	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("./js/")))) // for index.html
+	http.Handle("/test", http.StripPrefix("/test", http.FileServer(http.Dir("."))))   // for index.html
 
 	port := ":8080"
 	fmt.Printf("Starting swirlpool on port %v...\n", port)
