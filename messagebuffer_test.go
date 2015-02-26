@@ -16,7 +16,6 @@ func TestMessageBuffer(t *testing.T) {
 		t.Error("Too many messages in the buffer.")
 	}
 
-	fmt.Printf("%v\n", mb.messages[0].data[0])
 	if mb.messages[0].data[0] != "6" {
 		t.Error("Wrong message at buffer head.")
 	}
