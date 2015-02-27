@@ -16,6 +16,10 @@ func TestMessageBuffer(t *testing.T) {
 		t.Error("Too many messages in the buffer.")
 	}
 
+	if len(mb.messages) != mb.Len() {
+		t.Error("Length incorrectly reported.")
+	}
+
 	if mb.messages[0].data[0] != "6" {
 		t.Error("Wrong message at buffer head.")
 	}

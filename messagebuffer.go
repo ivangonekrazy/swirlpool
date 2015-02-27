@@ -24,6 +24,10 @@ func (mb *MessageBuffer) PushBack(m Message) {
 	mb.messages = append(mb.messages, m)
 }
 
+func (mb *MessageBuffer) Len() int {
+	return len(mb.messages)
+}
+
 func (mb *MessageBuffer) List() []Message {
 	return mb.messages
 }
