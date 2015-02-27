@@ -14,9 +14,15 @@ var h = Hub{
 	connections: make(map[*Connection]bool),
 }
 
+var p = EventsProcessor{
+	messages: NewMessageBuffer(100),
+	intake:   make(chan Message),
+}
+
 func main() {
 	go h.Run()
 	go broadcaster()
+	go p.Run()
 
 	http.HandleFunc("/sse", ClientHandler)
 	http.HandleFunc("/send", PostHandler)
