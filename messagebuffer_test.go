@@ -8,7 +8,7 @@ import (
 func TestMessageBuffer(t *testing.T) {
 	CAPACITY := 5
 	mb := NewMessageBuffer(CAPACITY)
-	for i := 1; i <= 10; i++ {
+	for i := 1; i <= CAPACITY*2; i++ {
 		mb.PushBack(NewMessage(fmt.Sprintf("%d", i)))
 	}
 

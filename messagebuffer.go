@@ -1,5 +1,6 @@
 package main
 
+// Ordered and bounded list of Messages
 type MessageBuffer struct {
 	messages []Message
 	capacity int
@@ -15,9 +16,10 @@ func (mb *MessageBuffer) Reset() {
 	mb.messages = nil
 }
 
+// Add a Message at the end of the list.
 func (mb *MessageBuffer) PushBack(m Message) {
 	// if the buffer is at capacity, remove the head element
-	if len(mb.messages) >= mb.capacity {
+	if mb.Len() == mb.capacity {
 		mb.messages = mb.messages[1:]
 	}
 
