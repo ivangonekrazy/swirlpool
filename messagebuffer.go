@@ -33,3 +33,22 @@ func (mb *MessageBuffer) Len() int {
 func (mb *MessageBuffer) List() []Message {
 	return mb.messages
 }
+
+type Messagelength struct {
+	message Message
+	length  int
+}
+
+// Return the longest length at the end of the MessageBuffer.
+func LatestStreak(mb *MessageBuffer) Messagelength {
+	streak_len := 1
+	for i := mb.Len() - 1; i > 0; i-- {
+		if mb.messages[i].Same(mb.messages[i-1]) {
+			streak_len++
+		} else {
+			return Messagelength{message: mb.messages[i], length: streak_len}
+		}
+	}
+
+	return Messagelength{message: mb.messages[mb.Len()-1:][0], length: streak_len}
+}

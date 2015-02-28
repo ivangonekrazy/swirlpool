@@ -24,3 +24,25 @@ func TestMessageBuffer(t *testing.T) {
 		t.Error("Wrong message at buffer head.")
 	}
 }
+
+func TestMessageStreak(t *testing.T) {
+	CAPACITY := 10
+	mb := NewMessageBuffer(CAPACITY)
+	for i := 1; i <= CAPACITY-3; i++ {
+		mb.PushBack(NewMessage(fmt.Sprintf("%d", i)))
+	}
+
+	s := LatestStreak(&mb)
+	if s.length != 1 {
+		t.Error("Didn't detect correct streak length %v", mb.List())
+	}
+
+	for j := 0; j < 3; j++ {
+		mb.PushBack(NewMessage("streak"))
+	}
+
+	s = LatestStreak(&mb)
+	if s.length != 3 {
+		t.Error("Didn't detect correct streak length %v", mb.List())
+	}
+}
