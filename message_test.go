@@ -41,3 +41,26 @@ func TestMessageAppend(t *testing.T) {
 		t.Error("Should then have one and two.")
 	}
 }
+
+func TestMessageSame(t *testing.T) {
+	m1 := NewMessage("one")
+	m2 := NewMessage("one")
+	if !m1.Same(m2) {
+		t.Error("Message data should be the same.")
+	}
+
+	m1.AppendData("two")
+	if m1.Same(m2) {
+		t.Error("Message data should not be the same after one append.")
+	}
+
+	m2.AppendData("two")
+	if !m1.Same(m2) {
+		t.Error("Message data should be the same after another append.")
+	}
+
+	m1.SetEvent("newtopic")
+	if m1.Same(m2) {
+		t.Error("Message data should not be the same after one sets an event.")
+	}
+}

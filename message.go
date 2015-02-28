@@ -39,6 +39,36 @@ func (m *Message) AppendData(data string) {
 	m.data = append(m.data, data)
 }
 
+func (m *Message) Len() int {
+	return len(m.data)
+}
+
+func (m *Message) Same(o Message) bool {
+	same := true
+
+	if m.event != o.event {
+		same = false
+	}
+
+	if m.Len() != o.Len() {
+		same = false
+	}
+
+	// if we know things are not equal by now, we can
+	// skip the following deep inspection
+	if !same {
+		return false
+	}
+
+	for i, _ := range m.data {
+		if m.data[i] != o.data[i] {
+			return false
+		}
+	}
+
+	return same
+}
+
 func (m *Message) String() string {
 	var buf bytes.Buffer
 
