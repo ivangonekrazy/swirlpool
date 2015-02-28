@@ -12,6 +12,14 @@ func TestMessage(t *testing.T) {
 	}
 }
 
+func TestOptionalEvent(t *testing.T) {
+	m := NewMessage("Hello", "world")
+
+	if m.event != "world" {
+		t.Error("NewMessage contstructor didn't set event.")
+	}
+}
+
 func TestSetEvent(t *testing.T) {
 	m := NewMessage("one")
 	m.SetEvent("hello")

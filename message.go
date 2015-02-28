@@ -12,8 +12,11 @@ type Message struct {
 	id    string
 }
 
-func NewMessage(data string) Message {
+func NewMessage(data string, event_optional ...string) Message {
 	m := Message{data: []string{data}}
+	if len(event_optional) == 1 {
+		m.SetEvent(event_optional[0])
+	}
 	return m
 }
 
