@@ -24,6 +24,12 @@ s.addEventListener("pullrequest", function(e) {
       .append("Pull request from " + e.data))
 });
 
+s.addEventListener("killingspree", function(e) {
+  $l.append(
+    $('<li>').append(
+      $('<h3>').append("KILLING SPREE " + e.data)))
+});
+
 // handle plain messages
 s.onmessage = function(e) {
   $l.append(

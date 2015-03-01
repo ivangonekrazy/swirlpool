@@ -28,10 +28,12 @@ func (h *Hub) Run() {
 			for c := range h.connections {
 				select {
 				case c.messageChan <- m:
-					// no body
+					fmt.Printf("Delivered %v to %v\n", m, c)
 				default:
+					fmt.Printf("Stuck connection? %v\n", c)
 					delete(h.connections, c)
 					close(c.messageChan)
+					continue
 				}
 			}
 

@@ -9,18 +9,32 @@ type EventsProcessor struct {
 	intake   chan Message
 }
 
-func (p *EventsProcessor) Run() {
+func (p *EventsProcessor) Run(broadcastChan chan Message) {
 	for {
 		select {
 		case m := <-p.intake:
 			p.messages.PushBack(m)
-			fmt.Printf("%v - %v\n", p.messages.Len(), m.String())
+			broadcastChan <- m
+			fmt.Printf("Processing %v - %v\n", m.String(), p.messages.Len())
 
-			// if any data payload matches my name, emit a new broadcast
-			for _, v := range m.data {
-				if v == "ivan" {
-					h.broadcast <- NewMessage("Welcome, Ivan!")
-				}
+			// detect and announce the kill streaks from Unreal Tournament
+			s := LatestStreak(&p.messages)
+			fmt.Printf("----------- %v\n", s)
+			switch s.length {
+			case 8:
+				broadcastChan <- NewMessage("HOLY SHIT!", "killingspree")
+			case 7:
+				broadcastChan <- NewMessage("Ludicrous Kill", "killingspree")
+			case 6:
+				broadcastChan <- NewMessage("Monster Kill", "killingspree")
+			case 5:
+				broadcastChan <- NewMessage("Ultra Kill", "killingspree")
+			case 4:
+				broadcastChan <- NewMessage("Mega Kill", "killingspree")
+			case 3:
+				broadcastChan <- NewMessage("Multi Kill", "killingspree")
+			case 2:
+				broadcastChan <- NewMessage("Double Kill", "killingspree")
 			}
 		}
 	}

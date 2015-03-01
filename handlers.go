@@ -11,7 +11,7 @@ import (
 func ClientHandler(w http.ResponseWriter, r *http.Request) {
 	var b bytes.Buffer
 	flusher := w.(http.Flusher)
-	conn := &Connection{messageChan: make(chan Message)}
+	conn := &Connection{messageChan: make(chan Message, 10)}
 
 	h.register <- conn
 
@@ -38,7 +38,6 @@ func ClientHandler(w http.ResponseWriter, r *http.Request) {
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 	messageText := r.PostFormValue("message")
-	h.broadcast <- NewMessage(messageText)
 	p.intake <- NewMessage(messageText)
 
 	fmt.Printf("PostHandler: received message: %s\n", messageText)
